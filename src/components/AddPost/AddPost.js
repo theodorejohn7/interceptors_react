@@ -1,0 +1,54 @@
+import React from "react";
+import { useState } from "react";
+import axios from "axios";
+
+export default function AddPost(props) {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+
+  function onCreatePost(e) {
+    e.preventDefault();
+
+    const postData = {
+      title,
+      description,
+    };
+    axios
+      .post(
+        `https://react-theo-default-rtdb.firebaseio.com/posts.json`,
+        postData
+      )
+      .then((response) => {
+        console.log(response);
+      });
+  }
+
+  return (
+    <div>
+      <h1> Create Post </h1>
+      <form onSubmit={onCreatePost}>
+        <div>
+          <label>Title : </label>
+          <input
+            type="text"
+            onChange={(e) => setTitle(e.target.value)}
+            value={title}
+            placeholder="Title"
+          />
+        </div>
+        <div>
+          <br />
+          <label>Description : </label>
+          <textarea
+            type="text"
+            onChange={(e) => setDescription(e.target.value)}
+            value={description}
+            placeholder="Description"
+          />
+        </div>{" "}
+        <br />
+        <button type="submit">Create Post</button>
+      </form>
+    </div>
+  );
+}

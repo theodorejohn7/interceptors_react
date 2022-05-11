@@ -4,6 +4,7 @@ import axios from "axios";
 
 import { Box } from "@mui/system";
 import SinglePostDetails from "../SinglePostDetails/SinglePostDetails";
+import AddPost from "../AddPost/AddPost";
 // import { FunctionalSinglePostDetails } from "../FunctionalSinglePostDetails/FunctionalSinglePostDetails";
 
 export default class Posts extends Component {
@@ -12,6 +13,7 @@ export default class Posts extends Component {
     this.state = {
       posts: [],
       selectedPostId: null,
+      isAddPost:false
     };
   }
 
@@ -35,6 +37,12 @@ export default class Posts extends Component {
     });
   };
 
+  onAddPostHandler = () => {
+    this.setState({
+      isAddPost:true
+    })
+  }
+
   render() {
     const postRender = this.state.posts.map((post) => {
       return (
@@ -49,7 +57,6 @@ export default class Posts extends Component {
     return (
       <div>
         <div></div>
-        <h1>Posts Data </h1>
 
         <Box
           sx={{
@@ -57,6 +64,19 @@ export default class Posts extends Component {
             flexWrap: "wrap",
             "& > :not(style)": {
               m: 1,
+             
+            },
+          }}
+        >
+        <h1>Posts Data </h1>
+
+        <Box
+          sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            "& > :not(style)": {
+               
+              m:0,
               p:1.25,
               borderRadius: 6,
               color:"white",
@@ -64,7 +84,10 @@ export default class Posts extends Component {
             },
           }}
         >
-          <a href="#"> Create a Post </a>
+          <a href="#"
+          onClick={this.onAddPostHandler}
+          > Create a Post </a>
+        </Box>
         </Box>
         <Box
           sx={{
@@ -86,6 +109,9 @@ export default class Posts extends Component {
               {/* <FunctionalSinglePostDetails  id={this.state.selectedPostId} /> */}
             </div>
           )}
+        </div>
+        <div> 
+         {this.state.isAddPost &&  <AddPost /> }
         </div>
       </div>
     );
