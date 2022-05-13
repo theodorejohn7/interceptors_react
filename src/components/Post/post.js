@@ -3,7 +3,7 @@ import Paper from "@mui/material/Paper";
 
 export function Post(props) {
   return (
-<a href="#+9"
+<a style={{ textDecoration: 'none' }} href="#+9"
 
 onClick={props.postclicked}
 > 
@@ -13,14 +13,14 @@ onClick={props.postclicked}
         border: 1 ,
         borderColor: 'grey.500' ,
         borderRadius: 6,
-        display: "flex",
-        flexWrap: "wrap",
         p:1,
       }}
       >
         <div>ID : {props.post.id}</div>
-        <div>Title : {props.post.Title} </div>
-        <div>Description : {props.post.Description} </div>
+        <div>Title : {props.post.title} </div>
+        <div>Description : {props.post.description} </div>
+      <br />
+      <button onClick={props.postDeleted}>Delete Post</button>
       </Paper>
       </a>
   );

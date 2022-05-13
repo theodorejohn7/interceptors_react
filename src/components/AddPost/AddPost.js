@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import { useState } , React from "react";
 import axios from "axios";
 
 export default function AddPost(props) {
@@ -15,10 +14,12 @@ export default function AddPost(props) {
     };
     axios
       .post(
-        `https://react-theo-default-rtdb.firebaseio.com/posts.json`,
+        `/posts.json`,
         postData
       )
       .then((response) => {
+
+        props.onPostAdded();
         console.log(response);
       });
   }

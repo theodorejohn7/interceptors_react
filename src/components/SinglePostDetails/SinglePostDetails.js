@@ -8,20 +8,20 @@ export default class SinglePostDetails extends Component {
       post: null,
     };
   }
-
-  componentDidUpdate() {
+  
+  componentDidMount() {
     this.getPostDetails();
   }
 
-  componentDidMount() {
-    if (!(this.state.post && this.state.post.id === this.props.id))
-      this.getPostDetails();
+  componentDidUpdate() {
+    if (!((this.state.post && (this.state.post.id === this.props.id))))
+{    this.getPostDetails();}
   }
 
   getPostDetails = () => {
     axios
       .get(
-        `https://react-theo-default-rtdb.firebaseio.com/posts/${this.props.id}.json`
+        `/posts/${this.props.id}.json`
       )
       .then((response) => {
         this.setState({
@@ -36,8 +36,8 @@ export default class SinglePostDetails extends Component {
         {this.state.post && (
           <div>
             <div>ID : {this.state.post.id} </div>
-            <div>Title : {this.state.post.Title}</div>
-            <div> Description : {this.state.post.Description}</div>
+            <div>Title : {this.state.post.title}</div>
+            <div> Description : {this.state.post.description}</div>
           </div>
         )}
       </div>

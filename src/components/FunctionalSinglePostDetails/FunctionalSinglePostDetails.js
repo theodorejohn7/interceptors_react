@@ -11,14 +11,11 @@ export function FunctionalSinglePostDetails(props) {
     getPostDetails();
   });
 
-  // useEffect(()=>{
-  //     getPostDetails();
-  // },[])
-
+ 
   function getPostDetails() {
     axios
       .get(
-        `https://react-theo-default-rtdb.firebaseio.com/posts/${props.id}.json`
+        `/posts/${props.id}.json`
       )
       .then((response) => {
         setPost({ ...response.data, id: props.id });
@@ -29,8 +26,8 @@ export function FunctionalSinglePostDetails(props) {
     return (
       <div>
         <div> Id: {post.id} </div>
-        <div> Title: {post.Title} </div>
-        <div> Description: {post.Description} </div>
+        <div> Title: {post.title} </div>
+        <div> Description: {post.description} </div>
       </div>
     );
   }

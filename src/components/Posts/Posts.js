@@ -1,11 +1,13 @@
 import { Component } from "react";
 import { Post } from "../Post/post";
-import axios from "axios";
+
+
+import axios from '../../axiosinstance'
 
 import { Box } from "@mui/system";
 import SinglePostDetails from "../SinglePostDetails/SinglePostDetails";
 import AddPost from "../AddPost/AddPost";
-// import { FunctionalSinglePostDetails } from "../FunctionalSinglePostDetails/FunctionalSinglePostDetails";
+
 
 export default class Posts extends Component {
   constructor(props) {
@@ -13,13 +15,20 @@ export default class Posts extends Component {
     this.state = {
       posts: [],
       selectedPostId: null,
-      isAddPost:false
+      isAddPost: false,
     };
   }
 
   componentDidMount() {
+    this.getPosts();
+  }
+
+  getPosts = () => {
+    this.setState({
+      isAddPost: false,
+    });
     axios
-      .get(`https://react-theo-default-rtdb.firebaseio.com/posts.json`)
+      .get(`/posts.json`)
       .then((response) => {
         const posts = [];
         for (let key in response.data) {
@@ -29,7 +38,7 @@ export default class Posts extends Component {
           posts: posts,
         });
       });
-  }
+  };
 
   onPostClickHandler = (id) => {
     this.setState({
@@ -39,9 +48,22 @@ export default class Posts extends Component {
 
   onAddPostHandler = () => {
     this.setState({
-      isAddPost:true
-    })
-  }
+      isAddPost: true,
+    });
+  };
+
+  onPostDeleteHandler = (id, e) => {
+    e.stopPropagation();
+    if (window.confirm("Do you want to delete")) {
+      axios
+        .delete(
+          `/posts/${id}.json`
+        )
+        .then((_response) => {
+          this.getPosts();
+        });
+    }
+  };
 
   render() {
     const postRender = this.state.posts.map((post) => {
@@ -50,6 +72,7 @@ export default class Posts extends Component {
           key={post.id}
           post={post}
           postclicked={this.onPostClickHandler.bind(this, post.id)}
+          postDeleted={this.onPostDeleteHandler.bind(this.getPosts, post.id)}
         />
       );
     });
@@ -64,30 +87,29 @@ export default class Posts extends Component {
             flexWrap: "wrap",
             "& > :not(style)": {
               m: 1,
-             
             },
           }}
         >
-        <h1>Posts Data </h1>
+          <h1>Posts Data </h1>
 
-        <Box
-          sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            "& > :not(style)": {
-               
-              m:0,
-              p:1.25,
-              borderRadius: 6,
-              color:"white",
-              backgroundColor:"blue"
-            },
-          }}
-        >
-          <a href="#"
-          onClick={this.onAddPostHandler}
-          > Create a Post </a>
-        </Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              "& > :not(style)": {
+                m: 0,
+                p: 1.25,
+                borderRadius: 6,
+                color: "white",
+                backgroundColor: "blue",
+              },
+            }}
+          >
+            <a href="#" onClick={this.onAddPostHandler}>
+              {" "}
+              Create a Post{" "}
+            </a>
+          </Box>
         </Box>
         <Box
           sx={{
@@ -95,7 +117,7 @@ export default class Posts extends Component {
             flexWrap: "wrap",
             "& > :not(style)": {
               m: 1,
-              width: 128,
+              width: 250,
               height: 128,
             },
           }}
@@ -110,8 +132,8 @@ export default class Posts extends Component {
             </div>
           )}
         </div>
-        <div> 
-         {this.state.isAddPost &&  <AddPost /> }
+        <div>
+          {this.state.isAddPost && <AddPost onPostAdded={this.getPosts} />}
         </div>
       </div>
     );
