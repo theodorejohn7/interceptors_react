@@ -2,7 +2,8 @@ import { Component } from "react";
 import { Post } from "../Post/post";
 
 
-import axios from '../../axiosinstance'
+import axios from '../../instance'
+ 
 
 import { Box } from "@mui/system";
 import SinglePostDetails from "../SinglePostDetails/SinglePostDetails";
